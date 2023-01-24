@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('capacity');
             $table->string('address');
             $table->integer('floor');
-            $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
         });
     }
