@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,9 +34,14 @@ Route::group(['prefix' => 'reservations'], function() {
 
 Route::group(['prefix' => 'auth'], function() {
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
+    Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 });
 
+Route::group(['prefix' => 'users'], function () {
+    Route::post('/create', [UserController::class, 'create']);
+    Route::post('/{id}/update', [UserController::class, 'update']);
+    Route::post('/{id}/delete', [UserController::class, 'delete']);
+});
 //rooms
 //rooms/create
 //rooms/id

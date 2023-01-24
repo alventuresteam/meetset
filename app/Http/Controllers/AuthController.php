@@ -10,7 +10,8 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -39,8 +40,9 @@ class AuthController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function user() {
-        return response() ->json([
+    public function user()
+    {
+        return response()->json([
             'user' => auth('sanctum')->user()
         ]);
     }
