@@ -29,4 +29,12 @@ class UserController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function delete($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

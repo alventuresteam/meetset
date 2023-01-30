@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MainInfoController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
@@ -42,20 +43,7 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('/{id}/update', [UserController::class, 'update']);
     Route::post('/{id}/delete', [UserController::class, 'delete']);
 });
-//rooms
-//rooms/create
-//rooms/id
-//rooms/id/reservations
-//rooms/id/edit
-//rooms/id/delete
-//
-//reservations
-//reservations/create
-//reservations/id/edit
-//reservations/id/delete
-//
-//users/create
-//users/id/edit
-//users/id/delete
 
+
+Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
 
