@@ -15,6 +15,12 @@ class UserController extends Controller
         $this->middleware(['auth:sanctum','is_admin']);
     }
 
+
+    public function index()
+    {
+        return User::query()->get();
+    }
+
     public function create(UserRequest $request)
     {
         User::create($request->validated());

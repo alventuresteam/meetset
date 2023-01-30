@@ -39,6 +39,7 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 Route::group(['prefix' => 'users'], function () {
+    Route::get('/', [UserController::class, 'index']);
     Route::post('/create', [UserController::class, 'create']);
     Route::post('/{id}/update', [UserController::class, 'update']);
     Route::post('/{id}/delete', [UserController::class, 'delete']);
