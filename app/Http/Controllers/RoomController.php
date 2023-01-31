@@ -15,7 +15,7 @@ class RoomController extends Controller
     }
     public function index()
     {
-        return Room::query()->get();
+        return Room::query()->with('reservations')->get();
     }
 
     public function create(RoomRequest $request)
