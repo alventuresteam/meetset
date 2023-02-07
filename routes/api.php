@@ -45,6 +45,10 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('/{id}/delete', [UserController::class, 'delete']);
 });
 
+Route::group(['prefix' => 'setting'], function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::post('/update', [UserController::class, 'update']);
+});
 
 Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
 
