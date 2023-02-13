@@ -28,10 +28,10 @@ class ReservRequest extends FormRequest
             'start_time' => ['required','date_format:H:i'],
             'end_time' => ['required','date_format:H:i'],
             'room_id' =>  ['required','exists:rooms,id'],
-            'organizer_name' => ['required'],
+            'organizer_name' => ['required','max:255'],
             'emails' => ['required','array'],
             'emails.*' => ['email'],
-            'title' => ['required'],
+            'title' => ['required','max:255'],
             'comment' => ['string','nullable'],
         ];
     }
