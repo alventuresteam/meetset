@@ -35,6 +35,7 @@ class ReservationController extends Controller
                 $q->orWhere('end_time','<=',$end_time);
             })
             ->first();
+        dd($current);
         //02:22-10:09
         //03:00 - 09:00
         if($current)
