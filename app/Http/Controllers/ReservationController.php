@@ -28,12 +28,11 @@ class ReservationController extends Controller
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', Carbon::parse($request->get('start_date')))
-
-           //->whereBetween('start_time', [ $start_time, $end_time ])
-            ->where(function($q) use ($start_time, $end_time) {
-                $q->where('start_time', '>=',$start_time);
-                $q->orWhere('end_time','<=',$end_time);
+            ->where(function($q) use($start_time,$end_time) {
+                $q ->whereBetween('start_time', [ $start_time, $end_time ])
+                    ->orWhereBetween('end_time', [ $start_time, $end_time ]);
             })
+
             ->first();
         //02:22-10:09
         //03:00 - 09:00
