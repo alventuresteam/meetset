@@ -35,6 +35,10 @@ class ReservationController extends Controller
                 });
                 $q->orWhereBetween('start_time', [ $start_time, $end_time ]);
                 $q->orWhereBetween('end_time', [ $start_time, $end_time ]);
+                $q->orWhere(function($q) use ($start_time, $end_time) {
+                    $q->where('start_time','<=', $start_time)
+                        ->where('end_time','<=', $end_time);
+                });
             })
             ->first();
 
