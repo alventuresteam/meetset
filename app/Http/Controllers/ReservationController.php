@@ -55,9 +55,6 @@ class ReservationController extends Controller
 
             $db_start_time = Carbon::parse($item->start_time);
             $db_end_time = Carbon::parse($item->end_time);
-            dump($db_start_time, $start_time);
-            dump($db_end_time, $end_time);
-            dump('--------------------');
             if($db_start_time < $start_time && $db_end_time > $end_time) {
                 return response()
                     ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
