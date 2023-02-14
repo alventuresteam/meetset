@@ -52,10 +52,11 @@ class ReservationController extends Controller
             ->get();
 
         foreach($current as $item) {
-            dump($item->start_time, $start_time);
-            dump($item->end_time, $end_time);
+
             $db_start_time = Carbon::parse($item->start_time);
             $db_end_time = Carbon::parse($item->end_time);
+            dump($db_start_time, $start_time);
+            dump($db_end_time, $end_time);
             dump('--------------------');
             if($db_start_time < $start_time && $db_end_time < $end_time && $start_time > $db_end_time) {
                 return response()
