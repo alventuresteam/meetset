@@ -54,8 +54,10 @@ class ReservationController extends Controller
         foreach($current as $item) {
             dump($item->start_time, $start_time);
             dump($item->end_time, $end_time);
+            $db_start_time = Carbon::parse($item->start_time);
+            $db_end_time = Carbon::parse($item->end_time);
             dump('--------------------');
-            if($item->start_time < $start_time && $item->end_time < $end_time && $start_time > $item->end_time) {
+            if($db_start_time < $start_time && $db_end_time < $end_time && $start_time > $db_end_time) {
                 return response()
                     ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
             }
