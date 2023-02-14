@@ -31,17 +31,19 @@ class ReservationController extends Controller
             ->where(function($q) use($start_time, $end_time) {
                 $q->where(function($q) use ($start_time) {
                     $q->where('start_time','<=', $start_time)
-                        ->orWhere('end_time','=>', $start_time);
+                      ->where('end_time','=>', $start_time);
                 });
                 $q->orWhere(function($q) use ($end_time) {
                     $q->where('start_time','>=', $end_time)
-                        ->orWhere('end_time','<=', $end_time);
+                        ->where('end_time','<=', $end_time);
                 });
             })
             ->first();
 
         //00:10 - 05:40
-        // 01:00 - 03:00
+        // 06:00 - 09:00
+
+
 
         if($current)
             return response()
