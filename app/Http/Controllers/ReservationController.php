@@ -30,17 +30,24 @@ class ReservationController extends Controller
             ->where('start_date', Carbon::parse($request->get('start_date')))
             ->where(function($q) use($start_time, $end_time) {
                 $q->where(function($q) use ($start_time) {
-                    $q->where('start_time','>=', $start_time)
-                        ->orWhere('end_time','<=', $start_time);
+                    $q->where('start_time','<=', $start_time)
+                        ->orWhere('end_time','=>', $start_time);
                 });
-                $q->orWhere(function($q) use ($end_time) {
+               /* $q->orWhere(function($q) use ($end_time) {
                     $q->where('start_time','>=', $end_time)
                         ->orWhere('end_time','<=', $end_time);
                 });
+
+                $q->orWhere(function($q) use ($end_time) {
+                    $q->where('start_time','>=', $end_time)
+                        ->orWhere('end_time','<=', $end_time);
+                });*/
             })
             ->first();
-        //02:22-10:09
-        //03:00 - 09:00
+
+        //00:10 - 05:40
+        // 01:00 - 03:00
+
         if($current)
             return response()
                 ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
