@@ -52,11 +52,13 @@ class ReservationController extends Controller
             ->get();
 
         foreach($current as $item) {
-            if($item->start_time < $start_time && $item->end_time < $end_time) {
+            if($item->start_time < $start_time && $item->end_time > $end_time) {
                 return response()
                     ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
             }
         }
+        //04:01 - 04:59
+        // 04:00 - 06:00
 
 
         $reservation = $request->user('sanctum')
