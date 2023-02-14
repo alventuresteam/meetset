@@ -79,6 +79,7 @@ class ReservationController extends Controller
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', Carbon::parse($request->get('start_date')))
+            ->where('id','<>',$id)
             ->where(function($q) use($start_time, $end_time) {
                 $q->where(function($q) use ($start_time) {
                     $q->where('start_time','<=', $start_time)
@@ -100,6 +101,7 @@ class ReservationController extends Controller
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', Carbon::parse($request->get('start_date')))
+            ->where('id','<>',$id)
             ->get();
 
         foreach($current as $item) {
