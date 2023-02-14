@@ -34,7 +34,7 @@ class ReservationController extends Controller
 
         if($current)
             return response()
-                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.']);
+                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
 
         $reservation = $request->user('sanctum')
             ->reservations()
