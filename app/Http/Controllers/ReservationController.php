@@ -61,8 +61,6 @@ class ReservationController extends Controller
             }
         }
 
-        // 04:00 - 06:00
-         //04:01 - 04:59
 
         $reservation = $request->user('sanctum')
             ->reservations()
@@ -76,6 +74,43 @@ class ReservationController extends Controller
 
     public function update(ReservRequest $request, $id)
     {
+        $start_time = Carbon::parse($request->get('start_time'));
+        $end_time = Carbon::parse($request->get('end_time'));
+        $current = Reservation::query()
+            ->where('room_id', $request->get('room_id'))
+            ->where('start_date', Carbon::parse($request->get('start_date')))
+            ->where(function($q) use($start_time, $end_time) {
+                $q->where(function($q) use ($start_time) {
+                    $q->where('start_time','<=', $start_time)
+                        ->where('end_time','=>', $start_time);
+                });
+                $q->orWhereBetween('start_time', [ $start_time, $end_time ]);
+                $q->orWhereBetween('end_time', [ $start_time, $end_time ]);
+
+            })
+            ->first();
+
+
+
+
+        if($current)
+            return response()
+                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+
+        $current = Reservation::query()
+            ->where('room_id', $request->get('room_id'))
+            ->where('start_date', Carbon::parse($request->get('start_date')))
+            ->get();
+
+        foreach($current as $item) {
+
+            $db_start_time = Carbon::parse($item->start_time);
+            $db_end_time = Carbon::parse($item->end_time);
+            if($db_start_time < $start_time && $db_end_time > $end_time) {
+                return response()
+                    ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+            }
+        }
         $reservation = Reservation::findOrFail($id);
         $reservation->update($request->validated());
 
