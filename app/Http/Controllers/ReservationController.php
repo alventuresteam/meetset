@@ -33,14 +33,13 @@ class ReservationController extends Controller
                     $q->where('start_time','<=', $start_time)
                       ->where('end_time','=>', $start_time);
                 });
-                $q->orWhere(function($q) use ($end_time) {
-                    $q->where('start_time','>=', $end_time)
-                        ->where('end_time','<=', $end_time);
-                });
+                $q->orWhereBetween('start_time', [ $start_time, $end_time ]);
+                $q->orWhereBetween('end_time', [ $start_time, $end_time ]);
             })
             ->first();
 
         //00:10 - 05:40
+        // 00:05 - 03:00
         // 06:00 - 09:00
 
 
