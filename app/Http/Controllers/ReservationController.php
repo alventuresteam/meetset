@@ -35,22 +35,29 @@ class ReservationController extends Controller
                 });
                 $q->orWhereBetween('start_time', [ $start_time, $end_time ]);
                 $q->orWhereBetween('end_time', [ $start_time, $end_time ]);
-                $q->orWhere(function($q) use ($start_time, $end_time) {
-                    $q->where('start_time','<=', $start_time)
-                        ->where('end_time','<=', $end_time);
-                });
+
             })
             ->first();
 
-        //00:10 - 05:40
-        // 00:05 - 03:00
-        // 06:00 - 09:00
 
 
 
         if($current)
             return response()
                 ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+
+        $current = Reservation::query()
+            ->where('room_id', $request->get('room_id'))
+            ->where('start_date', Carbon::parse($request->get('start_date')))
+            ->get();
+
+        foreach($current as $item) {
+            if($item->start_time < $start_time && $item->end_time < $end_time) {
+                return response()
+                    ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+            }
+        }
+
 
         $reservation = $request->user('sanctum')
             ->reservations()
