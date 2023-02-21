@@ -19,6 +19,7 @@ class MainInfoController extends Controller
                     ->first();
         $today = Reservation::query()
             ->where('start_date',today())
+            ->where('start_time', '>',now()->format('H:i'))
             ->get();
         $tomorrow = Reservation::query()
             ->where('start_date',now()->addDay())
