@@ -1,0 +1,14 @@
+rooms
+rooms/create
+rooms/id
+rooms/id/reservations
+rooms/id/edit
+rooms/id/delete
+
+rooms/id/reservations/create
+rooms/id/reservations/res_id/edit
+rooms/id/reservations/res_id/delete
+
+users/create
+users/id/edit
+users/id/delete
