@@ -122,8 +122,8 @@ class ReservationController extends Controller
     public function delete($id)
     {
         $reservation = Reservation::findOrFail($id);
+            NewReservationEvent::dispatch($reservation);
         $reservation->delete();
-
         return response()->json(['success' => true]);
     }
 }
