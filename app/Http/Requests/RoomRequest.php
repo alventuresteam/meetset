@@ -24,7 +24,7 @@ class RoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','max:255'],
+            'name' => ['required', 'unique:rooms,name', 'max:255'],
             'capacity' => ['required','int'],
             'address' => ['required','max:255'],
             'floor' => ['required','int', 'min:1','max:25']
