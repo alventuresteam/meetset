@@ -31,6 +31,11 @@ class Reservation extends Model
             $item->room->has_new_reservs = true;
             $item->room->save();
         });
+
+        self::deleting(function($item) {
+            $item->room->has_new_reservs = true;
+            $item->room->save();
+        });
     }
 
     public function user(): BelongsTo
