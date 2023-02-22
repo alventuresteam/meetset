@@ -13,15 +13,18 @@ class MainInfoController extends Controller
     {
         $roomInfo = Room::findOrFail($room_id);
         $current = Reservation::query()
+                    ->where('room_id', $room_id)
                     ->where('start_date', today())
                     ->whereTime('start_time','<', now())
                     ->whereTime('end_time','>', now())
                     ->first();
         $today = Reservation::query()
+            ->where('room_id', $room_id)
             ->where('start_date',today())
             ->where('start_time', '>',now()->format('H:i'))
             ->get();
         $tomorrow = Reservation::query()
+            ->where('room_id', $room_id)
             ->where('start_date',now()->addDay())
             ->get();
 
