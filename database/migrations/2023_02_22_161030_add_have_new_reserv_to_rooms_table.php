@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('settings', function (Blueprint $table) {
+        Schema::table('rooms', function (Blueprint $table) {
             $table->boolean('has_new_reservs')->default(false);
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('settings', function (Blueprint $table) {
+        Schema::table('rooms', function (Blueprint $table) {
             $table->dropColumn('has_new_reservs');
         });
     }

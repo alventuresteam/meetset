@@ -38,4 +38,8 @@ class MainInfoController extends Controller
         $reservations = compact('current','today', 'tomorrow');
         return compact('roomInfo','isRoomFree', 'reservations');
     }
+
+    public function check() {
+
+    }
 }

@@ -52,4 +52,4 @@ Route::group(['prefix' => 'setting'], function () {
 });
 
 Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
-
+Route::get('/check/', [MainInfoController::class, 'check']);
