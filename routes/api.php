@@ -48,7 +48,7 @@ Route::group(['prefix' => 'users'], function () {
 
 Route::group(['prefix' => 'setting'], function () {
     Route::get('/', [SettingController::class, 'index']);
-    Route::post('/update', [SettingController::class, 'update']);
+    Route::post('/update', [SettingController::class, 'update'])->middleware('auth:sanctum');
 });
 
 Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
