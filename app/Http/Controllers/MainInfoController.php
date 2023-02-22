@@ -39,7 +39,14 @@ class MainInfoController extends Controller
         return compact('roomInfo','isRoomFree', 'reservations');
     }
 
-    public function check() {
+    public function check($id)
+    {
+        $room = Room::find($id);
+        $status = $room->has_new_reservs;
 
+        $room->has_new_reservs = false;
+        $room->save();
+
+        return response()->json(['status' => $status]);
     }
 }
