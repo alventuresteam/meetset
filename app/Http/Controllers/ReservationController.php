@@ -76,6 +76,8 @@ class ReservationController extends Controller
     {
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time = Carbon::parse($request->get('end_time'));
+
+
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', Carbon::parse($request->get('start_date')))
@@ -115,6 +117,11 @@ class ReservationController extends Controller
             }
         }
         $reservation = Reservation::findOrFail($id);
+
+        if($reservation->user_id != auth('sanctum')->id())
+            return response()
+                ->json(['success' => false, 'message' => 'Bu reservasiya sizə aid deyil.'],422);
+
         $reservation->update($request->validated());
 
         return response()->json(['success' => true]);
