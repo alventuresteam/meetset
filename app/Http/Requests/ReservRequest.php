@@ -25,7 +25,7 @@ class ReservRequest extends FormRequest
     {
         return [
             'start_date' => ['required', 'date'],
-            'start_time' => ['required','date_format:H:i'],
+            'start_time' => ['required','date_format:H:i','after_or_equal:now'],
             'end_time' => ['required','date_format:H:i'],
             'room_id' =>  ['required','exists:rooms,id'],
             'organizer_name' => ['required','max:255'],
