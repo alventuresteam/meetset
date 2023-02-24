@@ -32,7 +32,7 @@ class ReservationController extends Controller
         }
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
-            ->where('start_date', )
+            ->where('start_date', $start_date)
             ->where(function($q) use($start_time, $end_time) {
                 $q->where(function($q) use ($start_time) {
                     $q->where('start_time','<=', $start_time)
