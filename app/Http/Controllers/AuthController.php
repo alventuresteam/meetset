@@ -34,7 +34,7 @@ class AuthController extends Controller
     {
         auth('sanctum')
             ->user()
-            ->tokens()
+            ->currentAccessToken()
             ->delete();
 
         return response()->json(['success' => true]);
