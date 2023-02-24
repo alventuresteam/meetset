@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $data = $request->validated();
-        if(isset($data['password'])) {
+        if(isset($data['password']) && $data['password']) {
             $data['password'] = Hash::make($data['password']);
         }
 
