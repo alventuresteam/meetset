@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
             'fin_code' => ['required'],
             'position' => ['required'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($this->id, 'id')],
-            'password' => ['required']
+            'password' => ['sometimes','required']
         ];
     }
 }
