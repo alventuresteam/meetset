@@ -29,7 +29,7 @@ class SettingController extends Controller
         if($request->has('logo')) {
             $logo = $request->file('logo');
             $setting->addMedia($logo)
-                ->usingFileName(Str::uuid() . $logo->extension())
+                ->usingFileName(Str::uuid() .'.'. $logo->extension())
                 ->toMediaCollection('logo');
         }
 
