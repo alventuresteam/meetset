@@ -15,7 +15,9 @@ class RoomController extends Controller
     }
     public function index()
     {
-        return Room::query()->with('reservations')->get();
+        return Room::query()
+            ->with(['reservations' => fn($q) => $q->orderBy('start_time')])
+            ->get();
     }
 
     public function create(RoomRequest $request)
