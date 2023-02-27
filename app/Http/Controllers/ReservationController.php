@@ -18,7 +18,7 @@ class ReservationController extends Controller
 
     public function index()
     {
-        return Reservation::query()->get();
+        return Reservation::query()->orderBy('start_time')->get();
     }
 
     public function create(ReservRequest $request)
