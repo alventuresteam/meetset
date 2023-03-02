@@ -81,11 +81,11 @@ class ReservationController extends Controller
     {
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time = Carbon::parse($request->get('end_time'));
-
+        $start_date = Carbon::parse($request->get('start_date'));
 
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
-            ->where('start_date', Carbon::parse($request->get('start_date')))
+            ->where('start_date', $start_date)
             ->where('start_time','>',now())
             ->where('id','<>',$id)
             ->where(function($q) use($start_time, $end_time) {
@@ -100,7 +100,10 @@ class ReservationController extends Controller
             ->first();
 
 
-
+        if($start_time < now() && $start_date <= now()) {
+            return response()
+                ->json(['success' => false, 'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'],422);
+        }
 
         if($current)
             return response()
