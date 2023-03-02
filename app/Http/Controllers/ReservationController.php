@@ -44,9 +44,6 @@ class ReservationController extends Controller
             })
             ->first();
 
-
-
-
         if($current)
             return response()
                 ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
@@ -84,9 +81,9 @@ class ReservationController extends Controller
         $start_date = Carbon::parse($request->get('start_date'));
 
         $current = Reservation::query()
+
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', $start_date)
-            ->where('start_time','>',now())
             ->where('id','<>',$id)
             ->where(function($q) use($start_time, $end_time) {
                 $q->where(function($q) use ($start_time) {
