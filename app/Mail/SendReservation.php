@@ -38,9 +38,8 @@ class SendReservation extends Mailable
 
     public function content()
     {
-        return new Content(text:'');
+        return view('empty');
     }
-
     /**
      * Get the attachments for the message.
      *
