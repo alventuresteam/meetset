@@ -32,7 +32,7 @@ class SendReservation extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Reservation',
+            subject: $this->ics->name,
         );
     }
 
