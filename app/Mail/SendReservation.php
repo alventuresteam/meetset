@@ -48,7 +48,7 @@ class SendReservation extends Mailable
     public function attachments(): array
     {
         return [
-          Attachment::fromData($this->ics->data,$this->ics->name)
+          Attachment::fromData(fn() => $this->ics->data, $this->ics->name)
         ];
     }
 }
