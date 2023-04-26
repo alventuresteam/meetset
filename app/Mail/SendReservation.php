@@ -35,14 +35,9 @@ class SendReservation extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
     public function content()
     {
-        return null;
+        return '';
     }
 
     /**
