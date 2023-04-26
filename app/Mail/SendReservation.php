@@ -47,7 +47,6 @@ class SendReservation extends Mailable
      */
     public function attachments(): array
     {
-        dd(1);
         return [
           Attachment::fromData(fn() => $this->ics->data, $this->ics->name)->withMime('text/calendar')
         ];
