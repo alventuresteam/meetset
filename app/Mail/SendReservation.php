@@ -37,7 +37,7 @@ class SendReservation extends Mailable
 
     public function content()
     {
-        return '';
+        return view('empty');
     }
 
     /**
