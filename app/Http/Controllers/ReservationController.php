@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\ICS;
 use App\Events\NewReservationEvent;
 use App\Http\Requests\ReservRequest;
+use App\Mail\SendReservation;
 use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -18,7 +21,10 @@ class ReservationController extends Controller
 
     public function index()
     {
-        return Reservation::query()->orderBy('start_time')->get();
+        return Reservation::query()
+            ->orderBy('start_time')
+            ->limit(30)
+            ->get();
     }
 
     public function create(ReservRequest $request)
@@ -70,7 +76,26 @@ class ReservationController extends Controller
 
         NewReservationEvent::dispatch($reservation);
 
-        //TODO event send mails
+        $ics = new ICS();
+
+        $date = Carbon::parse($request->get('start_date'))->format('Y-m-d');
+
+        $start = $date.' '.$start_time->format('H:i');
+        $end = $date. ' '. $end_time->format('H:i');
+
+
+        $ics->setOrganizer($reservation->organizer_name,'elchin.m@al.ventures');
+        $ics->setParticipiants($reservation->emails);
+
+        $ics->ICS(
+            $start,
+            $end,
+            $reservation->title,
+            $reservation->comment,
+            'Baku'
+        );
+        Mail::to($reservation->emails)->send(new SendReservation($ics));
+
         return response()->json(['success' => true]);
     }
 
