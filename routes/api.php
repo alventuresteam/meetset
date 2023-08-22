@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\MainInfoController;
 use App\Http\Controllers\ReservationController;
@@ -60,3 +61,5 @@ Route::get('/ics', [SettingController::class, 'ics']);
 
 
 Route::post('/import-excel', [ImportController::class, 'importFromExcel'])->middleware('auth:sanctum');
+
+Route::get('/search-contacts',[ContactController::class,'search']);
