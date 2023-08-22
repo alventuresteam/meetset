@@ -62,4 +62,4 @@ Route::get('/ics', [SettingController::class, 'ics']);
 
 Route::post('/import-excel', [ImportController::class, 'importFromExcel'])->middleware('auth:sanctum');
 
-Route::get('/search-contacts',[ContactController::class,'search']);
+Route::get('/search-contacts', [ContactController::class,'search'])->middleware('auth:sanctum');
