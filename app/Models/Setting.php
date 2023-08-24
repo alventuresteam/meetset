@@ -12,7 +12,14 @@ class Setting extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'ip_address','port'
+        'ip_address',
+        'port',
+        'ldap_host',
+        'ldap_username',
+        'ldap_password',
+        'ldap_port',
+        'ldap_base_dn',
+        'ldap_timeout'
     ];
 
     public function registerMediaCollections(): void

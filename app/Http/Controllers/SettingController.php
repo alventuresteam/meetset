@@ -21,8 +21,14 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'ip_address' => 'required',
-            'port' => 'required'
+            'ip_address' => ['required'],
+            'port' => ['required'],
+            'ldap_host' => ['sometimes'],
+            'ldap_username' => ['sometimes'],
+            'ldap_password' => ['sometimes'],
+            'ldap_port' => ['sometimes'],
+            'ldap_base_dn' => ['sometimes'],
+            'ldap_timeout' => ['sometimes'],
         ]);
 
 
@@ -35,7 +41,16 @@ class SettingController extends Controller
                 ->toMediaCollection('logo');
         }
 
-            $setting->update($request->only(['ip_address','port']));
+            $setting->update($request->only([
+                'ip_address',
+                'port',
+                'ldap_host',
+                'ldap_username',
+                'ldap_password',
+                'ldap_port',
+                'ldap_base_dn',
+                'ldap_timeout',
+            ]));
 
         return response()->json(['success' => true]);
     }
