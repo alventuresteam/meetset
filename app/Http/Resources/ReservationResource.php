@@ -14,11 +14,11 @@ class ReservationResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contacts = $this->contacts ? array_map(fn($item) => [
+        $contacts = $this->contacts ? $this->contacts->map((fn($item) => [
             'name' => $item->name,
             'surname' => $item->surname,
             'email' => $item->email,
-        ],$this->contacts->toArray()) : null;
+        ])) : null;
         return [
             'id' => $this->id,
             'start_date' => $this->start_date,
