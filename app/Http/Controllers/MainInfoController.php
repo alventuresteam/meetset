@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ReservationResource;
+use App\Models\Contact;
 use App\Models\Reservation;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -22,13 +23,36 @@ class MainInfoController extends Controller
             ->where('room_id', $room_id)
             ->where('start_date',today())
             ->where('start_time', '>',now()->format('H:i'))
-            ->get();
+            ->get()
+            ->transform(function($item) {
+                $contacts = Contact::query()
+                    ->select('email','name','surname')
+                    ->whereIn('email', $item->emails)
+                    ->get();
+                $item->contacts = $contacts;
+                return $item;
+            });
+
+
         $tomorrow = Reservation::query()
             ->where('room_id', $room_id)
             ->where('start_date',now()->addDay())
-            ->get();
+            ->get()
+            ->transform(function($item) {
+                $contacts = Contact::query()
+                    ->select('email','name','surname')
+                    ->whereIn('email', $item->emails)
+                    ->get();
+                $item->contacts = $contacts;
+                return $item;
+            });
+
 
         if($current) {
+            $current->contacts = Contact::query()
+                ->select('email','name','surname')
+                ->whereIn('email',$current->emails)
+                ->get();
             $current = ReservationResource::make($current);
         }
 
