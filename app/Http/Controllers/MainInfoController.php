@@ -23,6 +23,7 @@ class MainInfoController extends Controller
             ->where('room_id', $room_id)
             ->where('start_date',today())
             ->where('start_time', '>',now()->format('H:i'))
+            ->orderBy('start_time')
             ->get()
             ->transform(function($item) {
                 $contacts = Contact::query()
@@ -37,6 +38,7 @@ class MainInfoController extends Controller
         $tomorrow = Reservation::query()
             ->where('room_id', $room_id)
             ->where('start_date',now()->addDay())
+            ->orderBy('start_time')
             ->get()
             ->transform(function($item) {
                 $contacts = Contact::query()
