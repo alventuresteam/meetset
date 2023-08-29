@@ -70,6 +70,18 @@ class MainInfoController extends Controller
         $room = Room::find($id);
         $status = $room->has_new_reservs;
 
+        $tempData = $room->new_reservs_data ?: [];
+        if($status) {
+            $tempData['all_other'] = true;
+        }else {
+            $status = $tempData['all_other'] ?? false;
+            $tempData['all_other'] = false;
+        }
+
+
+        $room->new_reservs_data = $tempData;
+
+
         $room->has_new_reservs = false;
         $room->save();
 
