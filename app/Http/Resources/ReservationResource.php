@@ -18,7 +18,7 @@ class ReservationResource extends JsonResource
             'name' => $item->name,
             'surname' => $item->surname,
             'email' => $item->email,
-        ],$this->contacts) : null;
+        ],$this->contacts->toArray()) : null;
         return [
             'id' => $this->id,
             'start_date' => $this->start_date,
