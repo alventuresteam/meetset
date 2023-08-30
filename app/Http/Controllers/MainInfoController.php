@@ -19,7 +19,7 @@ class MainInfoController extends Controller
             ->where('start_date',today())
             ->where(function($q) {
                 $q->where('start_time', '>', now()->format('H:i'))
-                    ->orWhere('end_time','<', now()->subMinutes(3)->format('H:i'));
+                    ->orWhere('end_time','>', now()->subMinutes(3)->format('H:i'));
             })
             ->orderBy('start_time')
             ->get()
