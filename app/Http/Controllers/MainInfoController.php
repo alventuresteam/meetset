@@ -45,8 +45,6 @@ class MainInfoController extends Controller
             });
 
 
-
-
         $today = ReservationResource::collection($today);
         $tomorrow = ReservationResource::collection($tomorrow);
         $reservations = compact('today', 'tomorrow');
