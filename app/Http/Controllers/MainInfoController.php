@@ -17,7 +17,10 @@ class MainInfoController extends Controller
         $today = Reservation::query()
             ->where('room_id', $room_id)
             ->where('start_date',today())
-            ->where('start_time', '>',now()->subMinutes(3)->format('H:i'))
+            ->where(function($q) {
+                $q->where('start_time', '>', now()->format('H:i'))
+                    ->orWhere('end_time','<', now()->subMinutes(3)->format('H:i'));
+            })
             ->orderBy('start_time')
             ->get()
             ->transform(function($item) {
