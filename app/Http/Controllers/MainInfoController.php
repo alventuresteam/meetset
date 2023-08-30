@@ -13,12 +13,7 @@ class MainInfoController extends Controller
     public function getRoomInfo($room_id)
     {
         $roomInfo = Room::findOrFail($room_id);
-        $current = Reservation::query()
-                    ->where('room_id', $room_id)
-                    ->where('start_date', today())
-                    ->whereTime('start_time','<', now())
-                    ->whereTime('end_time','>', now())
-                    ->first();
+
         $today = Reservation::query()
             ->where('room_id', $room_id)
             ->where('start_date',today())
@@ -50,19 +45,12 @@ class MainInfoController extends Controller
             });
 
 
-        if($current) {
-            $current->contacts = Contact::query()
-                ->select('email','name','surname')
-                ->whereIn('email',$current->emails)
-                ->get();
-            $current = ReservationResource::make($current);
-        }
+
 
         $today = ReservationResource::collection($today);
         $tomorrow = ReservationResource::collection($tomorrow);
-        $isRoomFree = !$current;
-        $reservations = compact('current','today', 'tomorrow');
-        return compact('roomInfo','isRoomFree', 'reservations');
+        $reservations = compact('today', 'tomorrow');
+        return compact('roomInfo', 'reservations');
     }
 
     public function check($id)
