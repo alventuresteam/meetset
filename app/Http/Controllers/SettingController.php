@@ -21,8 +21,8 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'ip_address' => ['required'],
-            'port' => ['required'],
+            'ip_address' => ['sometimes'],
+            'port' => ['sometimes'],
             'ldap_host' => ['sometimes'],
             'ldap_username' => ['sometimes'],
             'ldap_password' => ['sometimes'],
