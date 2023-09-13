@@ -14,6 +14,11 @@ class ReservationResource extends JsonResource
      */
     public function toArray($request)
     {
+        $contacts = $this->contacts ? $this->contacts->map((fn($item) => [
+            'name' => $item->name,
+            'surname' => $item->surname,
+            'email' => $item->email,
+        ])) : null;
         return [
             'id' => $this->id,
             'start_date' => $this->start_date,
@@ -22,6 +27,7 @@ class ReservationResource extends JsonResource
             'organizer_name' => $this->organizer_name,
             'emails' => $this->emails,
             'title' => $this->title,
+            'contacts' => $contacts
         ];
     }
 }

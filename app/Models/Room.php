@@ -10,6 +10,9 @@ class Room extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'new_reservs_data' => 'array'
+    ];
     protected $fillable = ['name','address','capacity','floor'];
     public function reservations(): HasMany
     {

@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\MainInfoController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,11 @@ Route::get('/check/{id}', [MainInfoController::class, 'check']);
 
 
 Route::get('/ics', [SettingController::class, 'ics']);
+
+
+Route::post('/import-excel', [ImportController::class, 'importFromExcel'])->middleware('auth:sanctum');
+Route::post('/import-ldap', [ImportController::class, 'importFromLdap'])->middleware('auth:sanctum');
+
+Route::get('/search-contacts', [ContactController::class,'search'])->middleware('auth:sanctum');
+
+Route::get('/users',[ImportController::class, 'importFromLdap']);
