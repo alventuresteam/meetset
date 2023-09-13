@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Imports\ContactsImport;
 use App\Ldap\Contact;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Contact as ContactEloquent;
@@ -23,6 +25,13 @@ class ImportController extends Controller
 
     public function importFromLdap()
     {
+        $setting = Setting::first();
+        Config::set('ldap.connections.default.hosts', $setting->ldap_host);
+        Config::set('ldap.connections.default.username', $setting->ldap_username);
+        Config::set('ldap.connections.default.base_dn', $setting->ldap_base_dn);
+        Config::set('ldap.connections.default.password', $setting->ldap_password);
+        Config::set('ldap.connections.default.port', $setting->ldap_port);
+        Config::set('ldap.connections.default.timeout', $setting->ldap_timeout);
         $ldapContacts =  Contact::query()
             ->select('mail','name')
             ->get();
