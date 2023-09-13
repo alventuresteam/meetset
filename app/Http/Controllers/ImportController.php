@@ -28,12 +28,15 @@ class ImportController extends Controller
             ->get();
 
         foreach($ldapContacts as $contact) {
-            ContactEloquent::query()->updateOrCreate([
-                'email' => $contact['mail'][0]
-            ],[
-                'name' => Str::before($contact['name'][0],' '),
-                'surname' => Str::after($contact['name'][0],' '),
-            ]);
+            if(isset($contact['mail'][0])) {
+                ContactEloquent::query()->updateOrCreate([
+                    'email' => $contact['mail'][0]
+                ],[
+                    'name' => Str::before($contact['name'][0],' '),
+                    'surname' => Str::after($contact['name'][0],' '),
+                ]);
+            }
+
         }
         return response()->json();
     }
