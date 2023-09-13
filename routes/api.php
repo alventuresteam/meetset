@@ -65,4 +65,3 @@ Route::post('/import-ldap', [ImportController::class, 'importFromLdap'])->middle
 
 Route::get('/search-contacts', [ContactController::class,'search'])->middleware('auth:sanctum');
 
-Route::get('/users',[ImportController::class, 'importFromLdap']);
