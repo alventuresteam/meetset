@@ -84,7 +84,7 @@ class ReservationController extends Controller
         $end = $date. ' '. $end_time->format('H:i');
 
 
-        $ics->setOrganizer($reservation->organizer_name,'elchin.m@al.ventures');
+        $ics->setOrganizer($reservation->organizer_name,'meetset@bestcomp.net');
         $ics->setParticipiants($reservation->emails);
 
         $ics->ICS(
