@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\MainInfoController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomController;
@@ -51,6 +52,10 @@ Route::group(['prefix' => 'users'], function () {
 Route::group(['prefix' => 'setting'], function () {
     Route::get('/', [SettingController::class, 'index']);
     Route::post('/update', [SettingController::class, 'update'])->middleware('auth:sanctum');
+});
+
+Route::group(['prefix' => 'logs'], function () {
+    Route::get('/', [LogController::class, 'index']);
 });
 
 Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
