@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LogResource;
 use Carbon\Carbon;
 use App\Models\Log;
 use Illuminate\Http\Request;

@@ -29,12 +29,16 @@ class SettingController extends Controller
         $this->validate($request, [
             'ip_address' => ['sometimes'],
             'port' => ['sometimes'],
+            'kiosk_password' => ['sometimes'],
+            'checked_invited' => ['sometimes'],
         ]);
 
         $setting = Setting::query()->first();
 
         $setting->update($request->only([
             'ip_address',
+            'kiosk_password',
+            'checked_invited',
             'port'
         ]));
 
