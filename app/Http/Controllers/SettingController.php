@@ -65,6 +65,13 @@ class SettingController extends Controller
                 ->toMediaCollection('logo');
         }
 
+        if($request->has('logo_dark')) {
+            $logoDark = $request->file('logo_dark');
+            $setting->addMedia($logoDark)
+                ->usingFileName(Str::uuid() .'.'. $logoDark->extension())
+                ->toMediaCollection('logo_dark');
+        }
+
         $setting->update($request->only([
             'login_text'
         ]));

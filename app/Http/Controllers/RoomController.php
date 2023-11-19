@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RoomRequest;
 use App\Models\Room;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RoomController extends Controller
 {
@@ -13,6 +15,7 @@ class RoomController extends Controller
     {
         $this->middleware('auth:sanctum', ['except' => ['index']]);
     }
+
     public function index()
     {
         return Room::query()
@@ -20,9 +23,21 @@ class RoomController extends Controller
             ->get();
     }
 
-    public function create(RoomRequest $request)
+    /**
+     * @param RoomRequest $request
+     * @return JsonResponse
+     */
+    public function create(RoomRequest $request): JsonResponse
     {
-        Room::create($request->validated());
+        $room = Room::create($request->validated());
+
+        if ($request->has('image')) {
+            $image = $request->file('image');
+            $room->addMedia($image)
+                ->usingFileName(Str::uuid() . '.' . $image->extension())
+                ->toMediaCollection('image');
+        }
+
         return response()->json(['success' => true]);
     }
 
@@ -38,6 +53,7 @@ class RoomController extends Controller
 
         return response()->json(['success' => true]);
     }
+
     public function delete($id)
     {
         $room = Room::findOrFail($id);
