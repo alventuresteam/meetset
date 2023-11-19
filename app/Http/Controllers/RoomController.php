@@ -18,9 +18,15 @@ class RoomController extends Controller
 
     public function index()
     {
-        return Room::query()
+        $rooms =  Room::query()
             ->with(['reservations' => fn($q) => $q->orderBy('start_time')])
             ->get();
+
+        foreach ($rooms as $room) {
+            $room->image = $room->getFirstMediaUrl('image');
+        }
+
+        return $rooms;
     }
 
     /**

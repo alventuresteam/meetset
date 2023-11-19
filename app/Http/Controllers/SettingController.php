@@ -15,6 +15,7 @@ class SettingController extends Controller
     {
         $setting =  Setting::first();
         $setting->logo = $setting->getFirstMediaUrl('logo');
+        $setting->logo_dark = $setting->getFirstMediaUrl('logo_dark');
 
         return $setting;
     }
