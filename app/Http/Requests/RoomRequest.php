@@ -28,7 +28,8 @@ class RoomRequest extends FormRequest
             'name' => ['required', Rule::unique('rooms','name')->ignore($this->id, 'id'), 'max:255'],
             'capacity' => ['required','int'],
             'address' => ['required','max:255'],
-            'floor' => ['required','int', 'min:1','max:25']
+            'floor' => ['required','int', 'min:1','max:25'],
+            'image' => ['sometimes']
         ];
     }
 }
