@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('ip_address')->nullable();
             $table->string('port')->nullable();
+            $table->longText('login_text')->nullable();
             $table->timestamps();
         });
     }

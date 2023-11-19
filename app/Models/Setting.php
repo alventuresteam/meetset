@@ -19,7 +19,8 @@ class Setting extends Model implements HasMedia
         'ldap_password',
         'ldap_port',
         'ldap_base_dn',
-        'ldap_timeout'
+        'ldap_timeout',
+        'login_text'
     ];
 
     public function registerMediaCollections(): void

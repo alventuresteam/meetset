@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Classes\ICS;
 use App\Models\Setting;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Spatie\CalendarLinks\Link;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class SettingController extends Controller
 {
@@ -22,6 +22,7 @@ class SettingController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws ValidationException
      */
     public function updateServer(Request $request): JsonResponse
     {
@@ -43,9 +44,14 @@ class SettingController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws ValidationException
      */
     public function updateLoginPage(Request $request): JsonResponse
     {
+        $this->validate($request, [
+            'login_text' => ['sometimes'],
+        ]);
+
         $setting = Setting::query()->first();
 
         if($request->has('logo')) {
@@ -55,12 +61,17 @@ class SettingController extends Controller
                 ->toMediaCollection('logo');
         }
 
+        $setting->update($request->only([
+            'login_text'
+        ]));
+
         return response()->json(['success' => true]);
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws ValidationException
      */
     public function updateEmployer(Request $request): JsonResponse
     {
@@ -87,7 +98,12 @@ class SettingController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function update(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function update(Request $request): JsonResponse
     {
         $this->validate($request, [
             'ip_address' => ['sometimes'],
@@ -124,12 +140,14 @@ class SettingController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function ics()
+    /**
+     * @return void
+     */
+    public function ics(): void
     {
        $ics = new ICS();
        $start = '2023-04-10 18:00';
        $end = '2023-04-10 21:00';
-
 
        $ics->setOrganizer('Elchin','azer.m@al.ventures');
        $ics->setParticipiants([
