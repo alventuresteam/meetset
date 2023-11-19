@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes\ICS;
 use App\Models\Setting;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\CalendarLinks\Link;
@@ -16,6 +17,74 @@ class SettingController extends Controller
         $setting->logo = $setting->getFirstMediaUrl('logo');
 
         return $setting;
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateServer(Request $request): JsonResponse
+    {
+        $request->validate($request, [
+            'ip_address' => ['sometimes'],
+            'port' => ['sometimes'],
+        ]);
+
+        $setting = Setting::query()->first();
+
+        $setting->update($request->only([
+            'ip_address',
+            'port'
+        ]));
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateLoginPage(Request $request): JsonResponse
+    {
+        $setting = Setting::query()->first();
+
+        if($request->has('logo')) {
+            $logo = $request->file('logo');
+            $setting->addMedia($logo)
+                ->usingFileName(Str::uuid() .'.'. $logo->extension())
+                ->toMediaCollection('logo');
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateEmployer(Request $request): JsonResponse
+    {
+        $request->validate($request, [
+            'ldap_host' => ['sometimes'],
+            'ldap_username' => ['sometimes'],
+            'ldap_password' => ['sometimes'],
+            'ldap_port' => ['sometimes'],
+            'ldap_base_dn' => ['sometimes'],
+            'ldap_timeout' => ['sometimes'],
+        ]);
+
+        $setting = Setting::query()->first();
+
+        $setting->update($request->only([
+            'ldap_host',
+            'ldap_username',
+            'ldap_password',
+            'ldap_port',
+            'ldap_base_dn',
+            'ldap_timeout',
+        ]));
+
+        return response()->json(['success' => true]);
     }
 
     public function update(Request $request)

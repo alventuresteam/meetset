@@ -52,6 +52,9 @@ Route::group(['prefix' => 'users'], function () {
 Route::group(['prefix' => 'setting'], function () {
     Route::get('/', [SettingController::class, 'index']);
     Route::post('/update', [SettingController::class, 'update'])->middleware('auth:sanctum');
+    Route::post('/update-server', [SettingController::class, 'updateServer'])->middleware('auth:sanctum');
+    Route::post('/update-login-page', [SettingController::class, 'updateLoginPage'])->middleware('auth:sanctum');
+    Route::post('/update-employer', [SettingController::class, 'updateEmployer'])->middleware('auth:sanctum');
 });
 
 Route::group(['prefix' => 'logs'], function () {
