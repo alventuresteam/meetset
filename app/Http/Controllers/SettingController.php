@@ -25,7 +25,7 @@ class SettingController extends Controller
      */
     public function updateServer(Request $request): JsonResponse
     {
-        $request->validate($request, [
+        $this->validate($request, [
             'ip_address' => ['sometimes'],
             'port' => ['sometimes'],
         ]);
@@ -64,7 +64,7 @@ class SettingController extends Controller
      */
     public function updateEmployer(Request $request): JsonResponse
     {
-        $request->validate($request, [
+        $this->validate($request, [
             'ldap_host' => ['sometimes'],
             'ldap_username' => ['sometimes'],
             'ldap_password' => ['sometimes'],
