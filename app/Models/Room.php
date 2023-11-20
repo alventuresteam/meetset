@@ -30,7 +30,11 @@ class Room extends Model implements HasMedia
         'name',
         'address',
         'capacity',
-        'floor'
+        'floor',
+        'status_az_1',
+        'status_az_2',
+        'status_en_1',
+        'status_en_2'
     ];
 
     /**

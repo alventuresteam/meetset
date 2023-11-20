@@ -19,6 +19,10 @@ return new class extends Migration
             $table->integer('capacity');
             $table->string('address');
             $table->integer('floor');
+            $table->longText('status_az_1')->nullable();
+            $table->longText('status_az_2')->nullable();
+            $table->longText('status_en_1')->nullable();
+            $table->longText('status_en_2')->nullable();
             $table->timestamps();
         });
     }

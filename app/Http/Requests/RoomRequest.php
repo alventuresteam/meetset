@@ -22,14 +22,18 @@ class RoomRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['required', Rule::unique('rooms','name')->ignore($this->id, 'id'), 'max:255'],
             'capacity' => ['required','int'],
             'address' => ['required','max:255'],
             'floor' => ['required','int', 'min:1','max:25'],
-            'image' => ['sometimes']
+            'image' => ['sometimes'],
+            'status_az_1' => ['sometimes'],
+            'status_az_2' => ['sometimes'],
+            'status_en_1' => ['sometimes'],
+            'status_en_2' => ['sometimes']
         ];
     }
 }
