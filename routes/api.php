@@ -59,6 +59,7 @@ Route::group(['prefix' => 'setting'], function () {
 
 Route::group(['prefix' => 'logs'], function () {
     Route::get('/', [LogController::class, 'index']);
+    Route::get('/export', [LogController::class, 'exportData']);
 });
 
 Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
