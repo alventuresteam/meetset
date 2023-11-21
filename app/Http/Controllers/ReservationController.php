@@ -68,7 +68,6 @@ class ReservationController extends Controller
             }
         }
 
-
         $reservation = $request->user('sanctum')
             ->reservations()
             ->create($request->validated());

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class ContactController extends Controller
 {
@@ -16,5 +17,13 @@ class ContactController extends Controller
             ->where('email','LIKE','%'.$request->get('q').'%')
             ->limit(10)
             ->pluck('email');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function index(): Collection
+    {
+        return Contact::query()->pluck('email');
     }
 }
