@@ -29,7 +29,7 @@ class ReservationController extends Controller
 
     public function create(ReservRequest $request)
     {
-        dd($request->all());
+        return $request->all();
 
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time   = Carbon::parse($request->get('end_time'));
