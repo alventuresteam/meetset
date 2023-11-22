@@ -8,6 +8,7 @@ use App\Http\Requests\ReservRequest;
 use App\Mail\SendReservation;
 use App\Models\Reservation;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -101,7 +102,12 @@ class ReservationController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function update(ReservRequest $request, $id)
+    /**
+     * @param ReservRequest $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function update(ReservRequest $request, $id): JsonResponse
     {
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time = Carbon::parse($request->get('end_time'));
@@ -140,7 +146,6 @@ class ReservationController extends Controller
             ->get();
 
         foreach($current as $item) {
-
             $db_start_time = Carbon::parse($item->start_time);
             $db_end_time = Carbon::parse($item->end_time);
             if($db_start_time < $start_time && $db_end_time > $end_time) {
@@ -158,11 +163,19 @@ class ReservationController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function delete($id)
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function delete($id): JsonResponse
     {
         $reservation = Reservation::findOrFail($id);
-            NewReservationEvent::dispatch($reservation);
+
+        NewReservationEvent::dispatch($reservation);
+
         $reservation->delete();
+
         return response()->json(['success' => true]);
     }
 }

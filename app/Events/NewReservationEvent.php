@@ -14,7 +14,10 @@ class NewReservationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $reservation;
+    /**
+     * @var Reservation $reservation
+     */
+    public Reservation $reservation;
     /**
      * Create a new event instance.
      *
@@ -28,9 +31,9 @@ class NewReservationEvent implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): Channel|array
     {
         return new Channel('room.'.$this->reservation->room_id);
     }
