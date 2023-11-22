@@ -26,6 +26,7 @@ class Setting extends Model implements HasMedia
         'login_text',
         'kiosk_password',
         'checked_invited',
+        'type',
     ];
 
     public function registerMediaCollections(): void
