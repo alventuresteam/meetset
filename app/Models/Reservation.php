@@ -10,7 +10,14 @@ class Reservation extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string[] $casts
+     */
     protected $casts = ['emails' => 'array'];
+
+    /**
+     * @var string[] $fillable
+     */
     protected $fillable = [
         'start_date',
         'start_time',
@@ -22,8 +29,10 @@ class Reservation extends Model
         'comment',
     ];
 
-
-    protected static function boot()
+    /**
+     * @return void
+     */
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -38,12 +47,19 @@ class Reservation extends Model
         });
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function room() {
+    /**
+     * @return BelongsTo
+     */
+    public function room(): BelongsTo
+    {
         return $this->belongsTo(Room::class);
     }
 }
