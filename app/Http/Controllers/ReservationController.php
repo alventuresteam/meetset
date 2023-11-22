@@ -88,7 +88,7 @@ class ReservationController extends Controller
 
 
         $ics->setOrganizer($reservation->organizer_name,'elchin.m@al.ventures');
-        $ics->setParticipiants($reservation->to_emails);
+        $ics->setParticipiants($reservation->emails);
 
         $ics->ICS(
             $start,
@@ -97,7 +97,7 @@ class ReservationController extends Controller
             $reservation->comment,
             'Baku'
         );
-        Mail::to($reservation->to_emails)->send(new SendReservation($ics));
+        Mail::to($reservation->emails)->send(new SendReservation($ics));
 
         return response()->json(['success' => true]);
     }
