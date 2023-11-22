@@ -26,7 +26,7 @@ class MainInfoController extends Controller
             ->transform(function($item) {
                 $contacts = Contact::query()
                     ->select('email','name','surname')
-                    ->whereIn('email', $item->emails)
+                    ->whereIn('email', $item->to_emails)
                     ->get();
                 $item->contacts = $contacts;
                 return $item;
