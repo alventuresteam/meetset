@@ -85,11 +85,11 @@ class RoomController extends Controller
     }
 
     /**
-     * @param RoomRequest $request
+     * @param Request $request
      * @param $id
      * @return JsonResponse
      */
-    public function removeImage(RoomRequest $request, $id): JsonResponse
+    public function removeImage(Request $request, $id): JsonResponse
     {
         /**
          * @var Room $room
