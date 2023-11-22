@@ -34,8 +34,8 @@ class ReservRequest extends FormRequest
             'organizer_name' => ['required','max:255'],
             'emails' => ['required','array'],
             'emails.*' => ['email'],
-            'cc_emails' => ['required','array'],
-            'cc_emails.*' => ['email'],
+            'cc_emails' => ['sometimes','array'],
+            'cc_emails.*' => ['sometimes', 'email'],
             'title' => ['required','max:255'],
             'comment' => ['string','nullable'],
         ];
