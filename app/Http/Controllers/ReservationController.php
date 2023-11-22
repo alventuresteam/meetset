@@ -8,6 +8,7 @@ use App\Http\Requests\ReservRequest;
 use App\Mail\SendReservation;
 use App\Models\Log;
 use App\Models\Reservation;
+use App\Models\Room;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -86,6 +87,8 @@ class ReservationController extends Controller
 
         NewReservationEvent::dispatch($reservation);
 
+        $room = Room::find($request->get('room_id'));
+
         $ics = new ICS();
 
         $date = Carbon::parse($request->get('start_date'))->format('Y-m-d');
@@ -102,7 +105,7 @@ class ReservationController extends Controller
             $end,
             $reservation->title,
             $reservation->comment,
-            'Baku'
+            $room->name ?? 'Baku'
         );
         Mail::to($reservation->emails)->send(new SendReservation($ics));
 

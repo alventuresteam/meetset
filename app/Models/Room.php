@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @method static create(mixed $validated)
  * @method static findOrFail($id)
+ * @method static find(mixed $get)
  */
 class Room extends Model implements HasMedia
 {
