@@ -29,6 +29,8 @@ class ReservationController extends Controller
 
     public function create(ReservRequest $request)
     {
+        $request->emails = [];
+
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time   = Carbon::parse($request->get('end_time'));
         $start_date = Carbon::parse($request->get('start_date'));
