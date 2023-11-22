@@ -6,7 +6,9 @@ use App\Classes\ICS;
 use App\Events\NewReservationEvent;
 use App\Http\Requests\ReservRequest;
 use App\Mail\SendReservation;
+use App\Models\Log;
 use App\Models\Reservation;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,6 +32,11 @@ class ReservationController extends Controller
 
     public function create(ReservRequest $request)
     {
+        /**
+         * @var User $user
+         */
+        $user = auth()->user();
+
         $request->emails = [];
 
         $start_time = Carbon::parse($request->get('start_time'));
@@ -99,6 +106,11 @@ class ReservationController extends Controller
         );
         Mail::to($reservation->emails)->send(new SendReservation($ics));
 
+        Log::create([
+            'user_id' => $user->id,
+            'operation_id' => 1
+        ]);
+
         return response()->json(['success' => true]);
     }
 
@@ -109,6 +121,11 @@ class ReservationController extends Controller
      */
     public function update(ReservRequest $request, $id): JsonResponse
     {
+        /**
+         * @var User $user
+         */
+        $user = auth()->user();
+
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time = Carbon::parse($request->get('end_time'));
         $start_date = Carbon::parse($request->get('start_date'));
@@ -161,6 +178,11 @@ class ReservationController extends Controller
 
         $reservation->update($request->validated());
 
+        Log::create([
+            'user_id' => $user->id,
+            'operation_id' => 2
+        ]);
+
         return response()->json(['success' => true]);
     }
 
@@ -170,11 +192,21 @@ class ReservationController extends Controller
      */
     public function delete($id): JsonResponse
     {
+        /**
+         * @var User $user
+         */
+        $user = auth()->user();
+
         $reservation = Reservation::findOrFail($id);
 
         NewReservationEvent::dispatch($reservation);
 
         $reservation->delete();
+
+        Log::create([
+            'user_id' => $user->id,
+            'operation_id' => 3
+        ]);
 
         return response()->json(['success' => true]);
     }
