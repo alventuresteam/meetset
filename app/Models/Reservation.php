@@ -13,7 +13,11 @@ class Reservation extends Model
     /**
      * @var string[] $casts
      */
-    protected $casts = ['emails' => 'array'];
+    protected $casts = [
+        'emails' => 'array',
+        'to_emails' => 'array',
+        'cc_emails' => 'array'
+    ];
 
     /**
      * @var string[] $fillable
