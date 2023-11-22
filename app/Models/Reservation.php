@@ -25,6 +25,8 @@ class Reservation extends Model
         'room_id',
         'organizer_name',
         'emails',
+        'to_emails',
+        'cc_emails',
         'title',
         'comment',
     ];

@@ -29,8 +29,6 @@ class ReservationController extends Controller
 
     public function create(ReservRequest $request)
     {
-        return $request->all();
-
         $start_time = Carbon::parse($request->get('start_time'));
         $end_time   = Carbon::parse($request->get('end_time'));
         $start_date = Carbon::parse($request->get('start_date'));
@@ -96,7 +94,7 @@ class ReservationController extends Controller
             $reservation->comment,
             'Baku'
         );
-        Mail::to($reservation->emails)->send(new SendReservation($ics));
+        Mail::to($reservation->to_emails)->send(new SendReservation($ics));
 
         return response()->json(['success' => true]);
     }
