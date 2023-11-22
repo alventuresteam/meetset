@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 
 class ContactController extends Controller
 {
-    public function search(Request $request)
+    /**
+     * @throws ValidationException
+     */
+    public function search(Request $request): Collection
     {
         $this->validate($request, [
             'q' => ['required']
@@ -24,6 +29,12 @@ class ContactController extends Controller
      */
     public function index(): Collection
     {
-        return Contact::query()->pluck('email');
+        $setting = Setting::first();
+
+        if ($setting->type == 'ldap') {
+            return Contact::query()->pluck('email');
+        } else{
+            return Contact::query()->pluck('email');
+        }
     }
 }
