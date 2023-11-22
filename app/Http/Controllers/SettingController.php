@@ -88,6 +88,7 @@ class SettingController extends Controller
     public function updateEmployer(Request $request): JsonResponse
     {
         $this->validate($request, [
+            'type' => ['sometimes'],
             'ldap_host' => ['sometimes'],
             'ldap_username' => ['sometimes'],
             'ldap_password' => ['sometimes'],
@@ -99,6 +100,7 @@ class SettingController extends Controller
         $setting = Setting::query()->first();
 
         $setting->update($request->only([
+            'type',
             'ldap_host',
             'ldap_username',
             'ldap_password',
@@ -118,6 +120,7 @@ class SettingController extends Controller
     public function update(Request $request): JsonResponse
     {
         $this->validate($request, [
+            'type' => ['sometimes'],
             'ip_address' => ['sometimes'],
             'port' => ['sometimes'],
             'ldap_host' => ['sometimes'],
@@ -139,6 +142,7 @@ class SettingController extends Controller
         }
 
             $setting->update($request->only([
+                'type',
                 'ip_address',
                 'port',
                 'ldap_host',
