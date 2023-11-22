@@ -24,15 +24,12 @@ class ContactController extends Controller
             ->pluck('email');
     }
 
-    /**
-     * @return Collection
-     */
-    public function index(): Collection
+    public function index()
     {
         $setting = Setting::first();
 
         if ($setting->type == 'ldap') {
-            return Contact::query()->pluck('email');
+            return [];
         } else{
             return Contact::query()->pluck('email');
         }
