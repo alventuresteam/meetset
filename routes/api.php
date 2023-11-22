@@ -26,6 +26,7 @@ Route::group(['prefix' => 'rooms'], function () {
     Route::post('/create', [RoomController::class, 'create']);
     Route::get('/{id}/view', [RoomController::class, 'view']);
     Route::post('{id}/update', [RoomController::class, 'update']);
+    Route::post('{id}/remove-image', [RoomController::class, 'removeImage']);
     Route::post('{id}/delete', [RoomController::class, 'delete']);
 });
 

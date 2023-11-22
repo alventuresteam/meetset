@@ -85,6 +85,23 @@ class RoomController extends Controller
     }
 
     /**
+     * @param RoomRequest $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function removeImage(RoomRequest $request, $id): JsonResponse
+    {
+        /**
+         * @var Room $room
+         */
+        $room = Room::findOrFail($id);
+
+        $room->clearMediaCollection('image');
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
      * @param $id
      * @return JsonResponse
      */
