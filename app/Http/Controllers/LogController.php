@@ -55,9 +55,7 @@ class LogController extends Controller
             ->when($request->input('search_term'), function ($query, $term) {
                 $query->whereHas('user',function ($query) use ($term) {
                     $query->where('name', 'like', '%' . $term . '%');
-                });
-
-                $query->whereHas('operation',function ($query) use ($term) {
+                })->orWhereHas('operation',function ($query) use ($term) {
                     $query->where('name', 'like', '%' . $term . '%');
                 });
             })
