@@ -33,7 +33,7 @@ class NewReservationEvent implements ShouldBroadcast
      *
      * @return Channel|array
      */
-    public function broadcastOn(): Channel|array
+    public function broadcastOn()
     {
         return new Channel('room.'.$this->reservation->room_id);
     }
