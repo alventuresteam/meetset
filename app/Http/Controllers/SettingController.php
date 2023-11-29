@@ -13,7 +13,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $setting =  Setting::first();
+        $setting =  Setting::without(['media'])->first();
         $setting->logo = $setting->getFirstMediaUrl('logo');
         $setting->logo_dark = $setting->getFirstMediaUrl('logo_dark');
 
