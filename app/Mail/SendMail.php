@@ -13,6 +13,13 @@ class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public array $data;
+
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
     /**
      * Get the message content definition.
      *
@@ -22,7 +29,8 @@ class SendMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.cc'
+            view: 'emails.cc',
+            with: $this->data
         );
     }
 }

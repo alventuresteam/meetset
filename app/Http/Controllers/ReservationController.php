@@ -42,43 +42,43 @@ class ReservationController extends Controller
         $request->emails = [];
 
         $start_time = Carbon::parse($request->get('start_time'));
-        $end_time   = Carbon::parse($request->get('end_time'));
+        $end_time = Carbon::parse($request->get('end_time'));
         $start_date = Carbon::parse($request->get('start_date'));
 
-        if($start_time < now() && $start_date <= now()) {
+        if ($start_time < now() && $start_date <= now()) {
             return response()
-                ->json(['success' => false, 'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'],422);
+                ->json(['success' => false, 'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'], 422);
         }
 
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', $start_date)
-            ->where(function($q) use($start_time, $end_time) {
-                $q->where(function($q) use ($start_time) {
-                    $q->where('start_time','<', $start_time)
-                      ->where('end_time','>', $start_time);
+            ->where(function ($q) use ($start_time, $end_time) {
+                $q->where(function ($q) use ($start_time) {
+                    $q->where('start_time', '<', $start_time)
+                        ->where('end_time', '>', $start_time);
                 });
-                $q->orWhereBetween('start_time', [ $start_time, $end_time ]);
-                $q->orWhereBetween('end_time', [ $start_time, $end_time ]);
+                $q->orWhereBetween('start_time', [$start_time, $end_time]);
+                $q->orWhereBetween('end_time', [$start_time, $end_time]);
             })
             ->first();
 
-        if($current)
+        if ($current)
             return response()
-                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'], 422);
 
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', Carbon::parse($request->get('start_date')))
             ->get();
 
-        foreach($current as $item) {
+        foreach ($current as $item) {
 
             $db_start_time = Carbon::parse($item->start_time);
             $db_end_time = Carbon::parse($item->end_time);
-            if($db_start_time < $start_time && $db_end_time > $end_time) {
+            if ($db_start_time < $start_time && $db_end_time > $end_time) {
                 return response()
-                    ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+                    ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'], 422);
             }
         }
 
@@ -94,11 +94,11 @@ class ReservationController extends Controller
 
         $date = Carbon::parse($request->get('start_date'))->format('Y-m-d');
 
-        $start = $date.' '.$start_time->format('H:i');
-        $end = $date. ' '. $end_time->format('H:i');
+        $start = $date . ' ' . $start_time->format('H:i');
+        $end = $date . ' ' . $end_time->format('H:i');
 
 
-        $ics->setOrganizer($reservation->organizer_name,'elchin.m@al.ventures');
+        $ics->setOrganizer($reservation->organizer_name, 'elchin.m@al.ventures');
         $ics->setParticipiants($reservation->emails);
 
         $ics->ICS(
@@ -110,11 +110,28 @@ class ReservationController extends Controller
         );
 
 
-
         Mail::to($reservation->emails)->send(new SendReservation($ics));
 
         if ($reservation->cc_emails) {
-            Mail::to($reservation->cc_emails)->send(new SendMail());
+
+            foreach ($request->input('cc_emails') as $ccEmail) {
+
+                if (filter_var($ccEmail, FILTER_VALIDATE_EMAIL)) {
+
+                    $data = [
+                        'email' => $ccEmail,
+                        'meet_creator' => $reservation->organizer_name,
+                        'meet_date' => $reservation->start_date,
+                        'meet_start_time' => $reservation->start_time,
+                        'meet_end_time' => $reservation->end_time,
+                        'meet_room_name' => $reservation->room?->name ?? '-',
+                        'meet_title' => $request->input('title'),
+                        'emails' => $request->input('emails'),
+                    ];
+
+                    Mail::to($ccEmail)->send(new SendMail($data));
+                }
+            }
         }
 
         Log::create([
@@ -142,50 +159,49 @@ class ReservationController extends Controller
         $start_date = Carbon::parse($request->get('start_date'));
 
         $current = Reservation::query()
-
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', $start_date)
-            ->where('id','<>',$id)
-            ->where(function($q) use($start_time, $end_time) {
-                $q->where(function($q) use ($start_time) {
-                    $q->where('start_time','<=', $start_time)
-                        ->where('end_time','=>', $start_time);
+            ->where('id', '<>', $id)
+            ->where(function ($q) use ($start_time, $end_time) {
+                $q->where(function ($q) use ($start_time) {
+                    $q->where('start_time', '<=', $start_time)
+                        ->where('end_time', '=>', $start_time);
                 });
-                $q->orWhereBetween('start_time', [ $start_time, $end_time ]);
-                $q->orWhereBetween('end_time', [ $start_time, $end_time ]);
+                $q->orWhereBetween('start_time', [$start_time, $end_time]);
+                $q->orWhereBetween('end_time', [$start_time, $end_time]);
 
             })
             ->first();
 
 
-        if($start_time < now() && $start_date <= now()) {
+        if ($start_time < now() && $start_date <= now()) {
             return response()
-                ->json(['success' => false, 'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'],422);
+                ->json(['success' => false, 'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'], 422);
         }
 
-        if($current)
+        if ($current)
             return response()
-                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+                ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'], 422);
 
         $current = Reservation::query()
             ->where('room_id', $request->get('room_id'))
             ->where('start_date', Carbon::parse($request->get('start_date')))
-            ->where('id','<>',$id)
+            ->where('id', '<>', $id)
             ->get();
 
-        foreach($current as $item) {
+        foreach ($current as $item) {
             $db_start_time = Carbon::parse($item->start_time);
             $db_end_time = Carbon::parse($item->end_time);
-            if($db_start_time < $start_time && $db_end_time > $end_time) {
+            if ($db_start_time < $start_time && $db_end_time > $end_time) {
                 return response()
-                    ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'],422);
+                    ->json(['success' => false, 'message' => 'Bu aralıqda artıq rezervasiya var.'], 422);
             }
         }
         $reservation = Reservation::findOrFail($id);
 
-        if($reservation->user_id != auth('sanctum')->id())
+        if ($reservation->user_id != auth('sanctum')->id())
             return response()
-                ->json(['success' => false, 'message' => 'Bu reservasiya sizə aid deyil.'],422);
+                ->json(['success' => false, 'message' => 'Bu reservasiya sizə aid deyil.'], 422);
 
         $reservation->update($request->validated());
 
