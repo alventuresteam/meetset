@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\ICS;
 use App\Events\NewReservationEvent;
 use App\Http\Requests\ReservRequest;
+use App\Mail\SendMail;
 use App\Mail\SendReservation;
 use App\Models\Log;
 use App\Models\Reservation;
@@ -107,7 +108,14 @@ class ReservationController extends Controller
             $reservation->comment,
             $room->name ?? 'Baku'
         );
+
+
+
         Mail::to($reservation->emails)->send(new SendReservation($ics));
+
+        if ($reservation->cc_emails) {
+            Mail::to($reservation->cc_emails)->send(new SendMail());
+        }
 
         Log::create([
             'user_id' => $user->id,
