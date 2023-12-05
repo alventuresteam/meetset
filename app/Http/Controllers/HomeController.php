@@ -21,6 +21,6 @@ class HomeController extends Controller
             ->select('mail','name')
             ->get();
 
-        dd($ldapContacts);
+        dd($ldapContacts[0]);
     }
 }
