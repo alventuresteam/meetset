@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\ContactsImport;
 use App\Ldap\Contact;
 use App\Models\Setting;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
@@ -23,30 +24,35 @@ class ImportController extends Controller
         return response()->json();
     }
 
-    public function importFromLdap()
+    /**
+     * @return JsonResponse
+     */
+    public function importFromLdap(): JsonResponse
     {
-//        $setting = Setting::first();
-//        Config::set('ldap.connections.default.hosts', $setting->ldap_host);
-//        Config::set('ldap.connections.default.username', $setting->ldap_username);
-//        Config::set('ldap.connections.default.base_dn', $setting->ldap_base_dn);
-//        Config::set('ldap.connections.default.password', $setting->ldap_password);
-//        Config::set('ldap.connections.default.port', $setting->ldap_port);
-//        Config::set('ldap.connections.default.timeout', $setting->ldap_timeout);
-//        $ldapContacts =  Contact::query()
-//            ->select('mail','name')
-//            ->get();
-//
-//        foreach($ldapContacts as $contact) {
-//            if(isset($contact['mail'][0])) {
-//                ContactEloquent::query()->updateOrCreate([
-//                    'email' => $contact['mail'][0]
-//                ],[
-//                    'name' => Str::before($contact['name'][0],' '),
-//                    'surname' => Str::after($contact['name'][0],' '),
-//                ]);
-//            }
-//
-//        }
+        $setting = Setting::first();
+
+        Config::set('ldap.connections.default.hosts', $setting->ldap_host ?? env('LDAP_HOST', '127.0.0.1'));
+        Config::set('ldap.connections.default.username', $setting->ldap_username ?? env('LDAP_USERNAME', 'cn=user,dc=local,dc=com'));
+        Config::set('ldap.connections.default.base_dn', $setting->ldap_base_dn ?? env('LDAP_BASE_DN', 'dc=local,dc=com'));
+        Config::set('ldap.connections.default.password', $setting->ldap_password ?? env('LDAP_PASSWORD', 'secret'));
+        Config::set('ldap.connections.default.port', $setting->ldap_port ?? env('LDAP_PORT', 389));
+        Config::set('ldap.connections.default.timeout', $setting->ldap_timeout ?? env('LDAP_TIMEOUT', 5));
+
+        $ldapContacts =  Contact::query()
+            ->select('mail','name')
+            ->get();
+
+        foreach($ldapContacts as $contact) {
+            if(isset($contact['mail'][0])) {
+                ContactEloquent::query()->updateOrCreate([
+                    'email' => $contact['mail'][0]
+                ],[
+                    'name' => Str::before($contact['name'][0],' '),
+                    'surname' => Str::after($contact['name'][0],' '),
+                ]);
+            }
+        }
+
         return response()->json();
     }
 }
