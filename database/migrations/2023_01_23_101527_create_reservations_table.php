@@ -20,6 +20,8 @@ return new class extends Migration
             $table->time('end_time');
             $table->string('organizer_name');
             $table->json('emails');
+            $table->json('to_emails');
+            $table->json('cc_emails');
             $table->string('title');
             $table->text('comment')->nullable();
 

@@ -6,11 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property mixed $room_id
+ * @method static findOrFail($id)
+ */
 class Reservation extends Model
 {
     use HasFactory;
 
-    protected $casts = ['emails' => 'array'];
+    /**
+     * @var string[] $casts
+     */
+    protected $casts = [
+        'emails' => 'array',
+        'to_emails' => 'array',
+        'cc_emails' => 'array'
+    ];
+
+    /**
+     * @var string[] $fillable
+     */
     protected $fillable = [
         'start_date',
         'start_time',
@@ -18,12 +33,16 @@ class Reservation extends Model
         'room_id',
         'organizer_name',
         'emails',
+        'to_emails',
+        'cc_emails',
         'title',
         'comment',
     ];
 
-
-    protected static function boot()
+    /**
+     * @return void
+     */
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -38,12 +57,19 @@ class Reservation extends Model
         });
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function room() {
+    /**
+     * @return BelongsTo
+     */
+    public function room(): BelongsTo
+    {
         return $this->belongsTo(Room::class);
     }
 }

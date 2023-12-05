@@ -17,6 +17,17 @@ return new class extends Migration
             $table->id();
             $table->string('ip_address')->nullable();
             $table->string('port')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('file')->nullable();
+            $table->string('ldap_host')->nullable();
+            $table->string('ldap_username')->nullable();
+            $table->string('ldap_password')->nullable();
+            $table->string('ldap_port')->nullable();
+            $table->string('ldap_base_dn')->nullable();
+            $table->string('ldap_timeout')->nullable();
+            $table->string('kiosk_password')->nullable();
+            $table->longText('login_text')->nullable();
+            $table->boolean('checked_invited')->default(false);
             $table->timestamps();
         });
     }

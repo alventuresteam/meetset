@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\MainInfoController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RoomController;
@@ -25,6 +26,7 @@ Route::group(['prefix' => 'rooms'], function () {
     Route::post('/create', [RoomController::class, 'create']);
     Route::get('/{id}/view', [RoomController::class, 'view']);
     Route::post('{id}/update', [RoomController::class, 'update']);
+    Route::post('{id}/remove-image', [RoomController::class, 'removeImage']);
     Route::post('{id}/delete', [RoomController::class, 'delete']);
 });
 
@@ -51,6 +53,14 @@ Route::group(['prefix' => 'users'], function () {
 Route::group(['prefix' => 'setting'], function () {
     Route::get('/', [SettingController::class, 'index']);
     Route::post('/update', [SettingController::class, 'update'])->middleware('auth:sanctum');
+    Route::post('/update-server', [SettingController::class, 'updateServer'])->middleware('auth:sanctum');
+    Route::post('/update-login-page', [SettingController::class, 'updateLoginPage'])->middleware('auth:sanctum');
+    Route::post('/update-employer', [SettingController::class, 'updateEmployer'])->middleware('auth:sanctum');
+});
+
+Route::group(['prefix' => 'logs'], function () {
+    Route::get('/', [LogController::class, 'index']);
+    Route::get('/export', [LogController::class, 'exportData']);
 });
 
 Route::get('/room/{id}', [MainInfoController::class, 'getRoomInfo']);
@@ -63,5 +73,6 @@ Route::get('/ics', [SettingController::class, 'ics']);
 Route::post('/import-excel', [ImportController::class, 'importFromExcel'])->middleware('auth:sanctum');
 Route::post('/import-ldap', [ImportController::class, 'importFromLdap'])->middleware('auth:sanctum');
 
+Route::get('/contacts', [ContactController::class,'index']);
 Route::get('/search-contacts', [ContactController::class,'search'])->middleware('auth:sanctum');
 
