@@ -9,6 +9,8 @@ class ICS {
     public $organizerName;
     public $participiants = '';
     public $organizerEmail;
+
+
     public function ICS($start,$end,$name,$description,$location) {
         $this->name = $name;
         $this->data = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nBEGIN:VEVENT\nDTSTART:".date("Ymd\THis",strtotime($start))."\nDTEND:".date("Ymd\THis",strtotime($end))."\nLOCATION:".$location."\nTRANSP: OPAQUE\nSEQUENCE:0\nUID:\nDTSTAMP:".date("Ymd\THis")."\nSUMMARY:".$name.
