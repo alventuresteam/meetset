@@ -18,4 +18,3 @@ use Inertia\Inertia;
 */
 
 
-Route::get('/', [HomeController::class, 'index']);

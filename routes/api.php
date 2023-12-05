@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+Route::get('home', [HomeController::class, 'index']);
+
 Route::group(['prefix' => 'rooms'], function () {
     Route::get('/', [RoomController::class, 'index' ]);
     Route::post('/create', [RoomController::class, 'create']);
