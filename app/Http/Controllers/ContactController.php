@@ -28,10 +28,6 @@ class ContactController extends Controller
     {
         $setting = Setting::first();
 
-        if ($setting->type == 'ldap') {
-            return [];
-        } else{
-            return Contact::query()->pluck('email');
-        }
+        return Contact::query()->pluck('email');
     }
 }
