@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use Exception;
 use App\Classes\ICS;
 use App\Events\NewReservationEvent;
 use App\Http\Requests\ReservRequest;
@@ -32,6 +34,12 @@ class ReservationController extends Controller
             ->get();
     }
 
+
+    /**
+     * @param ReservRequest $request
+     * @return JsonResponse
+     * @throws Exception
+     */
     public function create(ReservRequest $request)
     {
         /**
@@ -39,11 +47,11 @@ class ReservationController extends Controller
          */
         $user = auth()->user();
 
-        dd($request->all());
-
         $request->emails = [];
 
-        $start_time = Carbon::parse($request->get('start_time'));
+        $dateTime = new DateTime($request->input('start_time'));
+
+        $start_time = Carbon::parse($dateTime);
         $end_time = Carbon::parse($request->get('end_time'));
         $start_date = Carbon::parse($request->get('start_date'));
 
