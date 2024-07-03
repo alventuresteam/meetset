@@ -39,7 +39,7 @@ class ReservationController extends Controller
          */
         $user = auth()->user();
 
-        dd($request);
+        dd($request->all());
 
         $request->emails = [];
 
