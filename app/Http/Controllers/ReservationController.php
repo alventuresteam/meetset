@@ -39,6 +39,8 @@ class ReservationController extends Controller
          */
         $user = auth()->user();
 
+        dd($request);
+
         $request->emails = [];
 
         $start_time = Carbon::parse($request->get('start_time'));
@@ -47,7 +49,10 @@ class ReservationController extends Controller
 
         if ($start_time < now() && $start_date <= now()) {
             return response()
-                ->json(['success' => false, 'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'], 422);
+                ->json([
+                    'success' => false,
+                    'message' => 'Keçmiş zamanda rezervasiya yaratmaq mümkün deyil.'
+                ], 422);
         }
 
         $current = Reservation::query()
